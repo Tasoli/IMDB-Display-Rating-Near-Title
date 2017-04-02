@@ -17,9 +17,11 @@ var getRatingTagColor = function(rating) {
   var tag = $('<span/>');
   // Add extra spaces to not touch with any surrounding elements
   // If there's no rating, display the Not Rated text
-  tag.html(' ' + (rating ? rating.toFixed(1) : '<span style="position: relative; padding-bottom: 9%; display: inline-block; text-align: center; top: 2px; font-size: 0.6em;"">Not Rated</span>') + ' ');
+  tag.html(' ' + ( rating ? '<span style="top:25%; position:relative;">' + rating.toFixed(1) + '</span>': '<span style="position: relative; padding-bottom: 9%; display: inline-block; text-align: center; top: 2px; font-size: 0.6em;"">Not Rated</span>') + ' ');
   tag.css('display', 'inline-block');
   tag.css('width', '6%');
+  tag.css('height', '3em');
+  tag.css('float', 'left');
   tag.css('text-align', 'center');
   // If there's no rating, make it rgb 60,60,60
   if (!rating) {
@@ -49,8 +51,7 @@ var getRatingTagColor = function(rating) {
       // Add 30 more. This makes the green rectangle stand out
       green = green + 30;
       // This is the rectangle code where we color the rectangle according to the math done above
-      tag.html('<svg style="margin-left:5%" display="block" height="16" width="32.5"><rect x="0" y="0" height="15" width="32.5" rx="5" ry="5" stroke="black" stroke-width="0" fill="rgb( '+ red + ','  + green + ','  + blue + ')" /><text x="50%" y="50%" text-anchor="middle" dy=".32em" font-size=".85em">' + (rating ? rating.toFixed(1) : 'N/A') + '</text>Sorry, your browser does not support inline SVG.</svg>');
-      tag.css('height', '13px');
+      tag.html('<span style="top:25%; position:relative;"><svg style="margin-left:5%" display="" height="16" width="32.5"><rect x="0" y="0" height="15" width="32.5" rx="5" ry="5" stroke="black" stroke-width="0" fill="rgb( '+ red + ','  + green + ','  + blue + ')" /><text x="50%" y="50%" text-anchor="middle" dy=".32em" font-size=".85em">' + (rating ? rating.toFixed(1) : 'N/A') + '</text>Sorry, your browser does not support inline SVG.</svg></span>');
       tag.css('font-weight', 'bold');
       tag.css('text-align', '');
     }
@@ -139,7 +140,8 @@ var addRatingToMovieRow = function(row, callback) {
       // Person Rating to always return NaN
       var rating = parseFloat(data.imdbRating, 10);
       // Insert rating tag after name anchor
-      $(anchor).before(getRatingTagColor(rating));
+      // $(anchor).before(getRatingTagColor(rating));
+      $(row).prepend(getRatingTagColor(rating));
       // Make not important stuff opaque
       // Ditched the opacity changing in favor of a colored number rating system
       // $(row).css('opacity', isGoodMovie(row, rating) ? 1 : 0.6);
