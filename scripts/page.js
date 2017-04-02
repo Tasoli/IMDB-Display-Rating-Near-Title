@@ -16,7 +16,7 @@ var getRatingTagColor = function(rating) {
   var blue = 60;
   var tag = $('<span/>');
   // Add extra spaces to not touch with any surrounding elements
-  tag.html(' ' + (rating ? rating : 'N/A') + ' ');
+  tag.html(' ' + (rating ? rating.toFixed(1) : 'N/A') + ' ');
   tag.css('display', 'inline-block');
   tag.css('font-weight', 'lighter');
   tag.css('width', '5.5%');
