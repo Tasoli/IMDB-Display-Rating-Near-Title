@@ -15,4 +15,4 @@ Features:
 
 Uses [The OMDB API](http://www.omdbapi.com) for fetching the ratings data.
 
-Based on a project created by [@skidding](https://twitter.com/skidding), now maintained by [Cory Thorpe](http://corythorpe.com).
+Based on a project created by [@skidding](https://twitter.com/skidding), modified by [Cory Thorpe](http://corythorpe.com).
