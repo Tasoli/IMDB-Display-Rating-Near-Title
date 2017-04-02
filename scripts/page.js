@@ -16,10 +16,11 @@ var getRatingTagColor = function(rating) {
   var blue = 60;
   var tag = $('<span/>');
   // Add extra spaces to not touch with any surrounding elements
-  tag.html(' ' + (rating ? rating.toFixed(1) : 'N/A') + ' ');
+  // If there's no rating, display the Not Rated text
+  tag.html(' ' + (rating ? rating.toFixed(1) : '<span style="position: relative; padding-bottom: 9%; display: inline-block; text-align: center; top: 2px; font-size: 0.6em;"">Not Rated</span>') + ' ');
   tag.css('display', 'inline-block');
-  tag.css('font-weight', 'lighter');
-  tag.css('width', '5.5%');
+  tag.css('width', '6%');
+  tag.css('text-align', 'center');
   // If there's no rating, make it rgb 60,60,60
   if (!rating) {
     tag.css('color', 'rgb(' + red + ','  + green + ','  + blue + ')');
@@ -40,9 +41,18 @@ var getRatingTagColor = function(rating) {
     }
     // Set the color of tag to new RGB values and return
     tag.css('color', 'rgb(' + red + ','  + green + ', ' + blue + ')');
-    // If the rating is higher than 8, embolden it
+    // If the rating is higher than 8, add an SVG rectangle and color the
+    // rectangle instead of the text.
     if (rating >= 8.0) {
+      // Change the green string back into a number
+      green = parseFloat(green);
+      // Add 30 more. This makes the green rectangle stand out
+      green = green + 30;
+      // This is the rectangle code where we color the rectangle according to the math done above
+      tag.html('<svg style="margin-left:5%" display="block" height="16" width="32.5"><rect x="0" y="0" height="15" width="32.5" rx="5" ry="5" stroke="black" stroke-width="0" fill="rgb( '+ red + ','  + green + ','  + blue + ')" /><text x="50%" y="50%" text-anchor="middle" dy=".32em" font-size=".85em">' + (rating ? rating.toFixed(1) : 'N/A') + '</text>Sorry, your browser does not support inline SVG.</svg>');
+      tag.css('height', '13px');
       tag.css('font-weight', 'bold');
+      tag.css('text-align', '');
     }
     return tag;
   }
@@ -161,10 +171,7 @@ $.fn.loadSectionRatings = function(callback) {
         // When a rating (be it N/A) for each movie has been returned, calculate
         // average rating and fire callback with it, if one is received
         if (!--expectedRatings) {
-          console.log("rating sum" + ratingSum);
-          console.log("rating count" + ratingCount);
           var mean = (ratingSum / ratingCount).toFixed(1);
-          console.log("mean" + mean);
           if (typeof(callback) == 'function') {
             callback(mean);
           }
